@@ -1,15 +1,19 @@
 # Web Video Downloader
 
-A Flask-based web tool to download videos from various platforms.
+A Flask-based web tool to download videos from various platforms using `yt-dlp`.
+
+## What This Tool Does
+
+This tool allows you to download videos from supported platforms (e.g., YouTube, Pornhub, or any site supported by `yt-dlp`). Here's how it works:
+
+- **Enter a Video URL**: Paste the URL of the video you want to download into the web interface.
+- **View Available Formats**: The tool fetches available video formats (e.g., 360p, 720p, 1080p) using `yt-dlp`.
+- **Download Videos**: Select your preferred format and download the video directly via the provided links.
+- **Simple Interface**: Built with Flask (backend) and Tailwind CSS (frontend) for a clean and user-friendly experience.
 
 ## Installation
 
-Run the following command in Termux to set up and run the video downloader web tool:
-
-```bash
-curl -sL https://raw.githubusercontent.com/menakajanith/web-video-download-web-tool/main/setup_and_run.sh | bash
-
-
+### For PC (Using VS Code)
 
 1. Install prerequisites:
    - [VS Code](https://code.visualstudio.com)
