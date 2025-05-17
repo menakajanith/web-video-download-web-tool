@@ -27,8 +27,7 @@ cd web-video-download-web-tool
 python -m venv venv
 .\venv\Scripts\activate  # On macOS/Linux: source venv/bin/activate
 pip install -r requirements.txt
-python app.py.
-
+python app.py
 
 ## Android Installation version
 
