@@ -3,16 +3,18 @@
 # Update Termux and install required packages
 echo "Updating Termux and installing packages..."
 pkg update -y && pkg upgrade -y
-pkg install git python -y
+pkg install git python curl -y
 pip install --upgrade pip
 
-# Check if we are in the correct directory, if not clone the repo
-REPO_DIR="web-video-download-web-tool"
-if [ ! -f "app.py" ]; then
+# Set working directory
+WORK_DIR="$HOME/web-video-download-web-tool"
+if [ ! -d "$WORK_DIR" ]; then
     echo "Cloning repository..."
-    git clone https://github.com/menakajanith/web-video-download-web-tool.git
-    cd $REPO_DIR
+    git clone https://github.com/menakajanith/web-video-download-web-tool.git "$WORK_DIR"
 fi
+
+# Navigate to the project directory
+cd "$WORK_DIR"
 
 # Set up virtual environment if it doesn't exist
 if [ ! -d "venv" ]; then
@@ -30,6 +32,9 @@ if [ -f "requirements.txt" ]; then
 else
     pip install flask yt-dlp
 fi
+
+# Ensure script has executable permission
+chmod +x setup_and_run.sh
 
 # Run the Flask app
 echo "Starting Flask app..."
