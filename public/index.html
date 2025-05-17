@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Downloader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 flex items-center justify-center p-4">
+    <div class="max-w-2xl w-full bg-white rounded-lg shadow-xl p-8">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Video Downloader</h1>
+        <div class="flex flex-col sm:flex-row gap-4 mb-6">
+            <input 
+                type="text" 
+                id="video-url" 
+                placeholder="Enter video URL (e.g., Pornhub, xhchannel)" 
+                class="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            >
+            <button 
+                onclick="getVideo()" 
+                class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300"
+            >
+                Download
+            </button>
+        </div>
+        <div id="download-links" class="space-y-4"></div>
+    </div>
+
+    <script>
+        async function getVideo() {
+            const url = document.getElementById('video-url').value;
+            const linksDiv = document.getElementById('download-links');
+            linksDiv.innerHTML = '<div class="spinner"></div>';
+
+            try {
+                const response = await fetch('/download', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url })
+                });
+                const data = await response.json();
+                linksDiv.innerHTML = '';
+
+                if (data.error) {
+                    linksDiv.innerHTML = `<p class="text-red-500 font-semibold text-center">Error: ${data.error}</p>`;
+                } else if (data.links.length === 0) {
+                    linksDiv.innerHTML = `<p class="text-red-500 font-semibold text-center">No downloadable formats found.</p>`;
+                } else {
+                    data.links.forEach(link => {
+                        linksDiv.innerHTML += `
+                            <div class="bg-gray-50 p-4 rounded-lg shadow-sm flex justifying-between items-center hover:bg-gray-100 transition duration-200">
+                                <span class="text-gray-700 font-medium">${link.quality}</span>
+                                <a 
+                                    href="${link.url}" 
+                                    target="_blank" 
+                                    class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-200"
+                                >
+                                    Download
+                                </a>
+                            </div>`;
+                    });
+                }
+            } catch (e) {
+                linksDiv.innerHTML = `<p class="text-red-500 font-semibold text-center">Error: Failed to fetch video formats</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
