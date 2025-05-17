@@ -27,11 +27,11 @@ cd web-video-download-web-tool
 python -m venv venv
 .\venv\Scripts\activate  # On macOS/Linux: source venv/bin/activate
 pip install -r requirements.txt
-python app.py
+python app.py.
 
 ## Android Installation version
 
 Run the following command in Termux to set up and run the video downloader web tool:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/menakajanith/web-video-download-web-tool/main/setup_and_run.sh | bash.
+curl -sL https://raw.githubusercontent.com/menakajanith/web-video-download-web-tool/main/setup_and_run.sh | bash
